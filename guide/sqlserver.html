@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>spring-boot-plus使用SQLServer配置 | spring-boot-plus</title>
+    <meta name="description" content="spring-boot-plus使用SQLServer数据库配置">
+    <link rel="icon" href="/favicon.ico">
+  <script>var _hmt = _hmt || []; (function() {var hm = document.createElement("script"); hm.src = "https://hm.baidu.com/hm.js?f5cf3abbd62a6b246284fc0259a2a17d"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();</script>
+  <script>console.log("%c                 _                    _                 _                _\n                (_)                  | |               | |              | |\n  ___ _ __  _ __ _ _ __   __ _ ______| |__   ___   ___ | |_ ______ _ __ | |_   _ ___\n / __| '_ \\| '__| | '_ \\ / _` |______| '_ \\ / _ \\ / _ \\| __|______| '_ \\| | | | / __|\n \\__ \\ |_) | |  | | | | | (_| |      | |_) | (_) | (_) | |_       | |_) | | |_| \\__ \\\n |___/ .__/|_|  |_|_| |_|\\__, |      |_.__/ \\___/ \\___/ \\__|      | .__/|_|\\__,_|___/\n     | |                  __/ |                                   | |\n     |_|                 |___/                                    |_|","color:blue");</script>
+  <script>console.log("%c      :: Spring Boot ::             (v2.2.0.RELEASE)","color:blue");console.log("%c      :: Spring Boot Plus ::        (v1.4.0)","color:blue");console.log("%c      :: spring-boot-plus ::        https://springboot.plus","color:blue");</script>
+  <script>console.log("%cWelcome to spring-boot-plus","color:blue");console.log("%cGITHUB：https://github.com/geekidea/spring-boot-plus","color:blue");console.log("%cGITEE：https://gitee.com/geekidea/spring-boot-plus","color:blue");console.log("%cBlog：https://geekidea.io","color:blue");console.log("%cWebsite：https://springboot.plus","color:blue");</script>
+    <meta name="keywords" content="sqlserver,sqlserver使用,spring,spring boot,springbootplus,spring-boot-plus,springboot.plus">
+    <link rel="preload" href="/assets/css/0.styles.6625b277.css" as="style"><link rel="preload" href="/assets/js/app.db17a95a.js" as="script"><link rel="preload" href="/assets/js/2.6d1275ea.js" as="script"><link rel="preload" href="/assets/js/54.23543b0e.js" as="script"><link rel="prefetch" href="/assets/js/10.5be2a980.js"><link rel="prefetch" href="/assets/js/11.9362ee1a.js"><link rel="prefetch" href="/assets/js/12.e856ce33.js"><link rel="prefetch" href="/assets/js/13.8548df14.js"><link rel="prefetch" href="/assets/js/14.d421edbb.js"><link rel="prefetch" href="/assets/js/15.aa803848.js"><link rel="prefetch" href="/assets/js/16.1f82aa42.js"><link rel="prefetch" href="/assets/js/17.b76ebf7e.js"><link rel="prefetch" href="/assets/js/18.7c403e8a.js"><link rel="prefetch" href="/assets/js/19.85862406.js"><link rel="prefetch" href="/assets/js/20.50118e6e.js"><link rel="prefetch" href="/assets/js/21.6ecbad1e.js"><link rel="prefetch" href="/assets/js/22.04150677.js"><link rel="prefetch" href="/assets/js/23.31e42250.js"><link rel="prefetch" href="/assets/js/24.62d268d4.js"><link rel="prefetch" href="/assets/js/25.bc860894.js"><link rel="prefetch" href="/assets/js/26.3d26b5e3.js"><link rel="prefetch" href="/assets/js/27.8e7349c7.js"><link rel="prefetch" href="/assets/js/28.4c239e18.js"><link rel="prefetch" href="/assets/js/29.aaac18de.js"><link rel="prefetch" href="/assets/js/3.54236c22.js"><link rel="prefetch" href="/assets/js/30.9db4eedc.js"><link rel="prefetch" href="/assets/js/31.e2f591b8.js"><link rel="prefetch" href="/assets/js/32.6f75b9c1.js"><link rel="prefetch" href="/assets/js/33.fdd459fb.js"><link rel="prefetch" href="/assets/js/34.7c8a0eef.js"><link rel="prefetch" href="/assets/js/35.8ad0c5f3.js"><link rel="prefetch" href="/assets/js/36.8e373213.js"><link rel="prefetch" href="/assets/js/37.95287516.js"><link rel="prefetch" href="/assets/js/38.282f1db3.js"><link rel="prefetch" href="/assets/js/39.34f2b25f.js"><link rel="prefetch" href="/assets/js/4.337abf8d.js"><link rel="prefetch" href="/assets/js/40.ba84faba.js"><link rel="prefetch" href="/assets/js/41.6a8df5b8.js"><link rel="prefetch" href="/assets/js/42.02bc737b.js"><link rel="prefetch" href="/assets/js/43.5b34dcc0.js"><link rel="prefetch" href="/assets/js/44.d430d71d.js"><link rel="prefetch" href="/assets/js/45.eaa465f2.js"><link rel="prefetch" href="/assets/js/46.11cd0dc4.js"><link rel="prefetch" href="/assets/js/47.65a87e15.js"><link rel="prefetch" href="/assets/js/48.250dd2e3.js"><link rel="prefetch" href="/assets/js/49.5d4f098b.js"><link rel="prefetch" href="/assets/js/5.76db1105.js"><link rel="prefetch" href="/assets/js/50.bb697104.js"><link rel="prefetch" href="/assets/js/51.5f6f5b65.js"><link rel="prefetch" href="/assets/js/52.a73139ed.js"><link rel="prefetch" href="/assets/js/53.4d2c7093.js"><link rel="prefetch" href="/assets/js/55.5f10a002.js"><link rel="prefetch" href="/assets/js/56.90a14ce0.js"><link rel="prefetch" href="/assets/js/57.d16f247e.js"><link rel="prefetch" href="/assets/js/58.9477625f.js"><link rel="prefetch" href="/assets/js/59.b90e777a.js"><link rel="prefetch" href="/assets/js/6.7b498927.js"><link rel="prefetch" href="/assets/js/60.9ac1ad41.js"><link rel="prefetch" href="/assets/js/61.76ce5abb.js"><link rel="prefetch" href="/assets/js/7.c2acd43f.js"><link rel="prefetch" href="/assets/js/8.39f782cd.js"><link rel="prefetch" href="/assets/js/9.241eeeec.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.6625b277.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">spring-boot-plus</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/guide/" class="nav-link router-link-active">指南</a></div><div class="nav-item"><a href="/config/" class="nav-link">配置</a></div><div class="nav-item"><a href="https://github.com/geekidea/spring-boot-plus/blob/master/CHANGELOG.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  更新日志
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://geekidea.io/spring-boot-plus-apidocs/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Java Api
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://47.105.159.10/api/docs" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Swagger
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://47.105.159.10/api" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  后端演示
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://47.105.159.10" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  前端演示
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">Languages</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/guide/sqlserver.html" class="nav-link router-link-exact-active router-link-active">简体中文</a></li><li class="dropdown-item"><!----> <a href="/en/guide/sqlserver.html" class="nav-link">English</a></li></ul></div></div> <a href="https://github.com/geekidea/spring-boot-plus" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/guide/" class="nav-link router-link-active">指南</a></div><div class="nav-item"><a href="/config/" class="nav-link">配置</a></div><div class="nav-item"><a href="https://github.com/geekidea/spring-boot-plus/blob/master/CHANGELOG.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  更新日志
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://geekidea.io/spring-boot-plus-apidocs/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Java Api
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://47.105.159.10/api/docs" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Swagger
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://47.105.159.10/api" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  后端演示
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://47.105.159.10" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  前端演示
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">Languages</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/guide/sqlserver.html" class="nav-link router-link-exact-active router-link-active">简体中文</a></li><li class="dropdown-item"><!----> <a href="/en/guide/sqlserver.html" class="nav-link">English</a></li></ul></div></div> <a href="https://github.com/geekidea/spring-boot-plus" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>快速入门</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/guide/" class="sidebar-link">简介</a></li><li><a href="/guide/quick-start.html" class="sidebar-link">快速开始</a></li><li><a href="/guide/project-config.html" class="sidebar-link">配置文件</a></li><li><a href="/guide/tree.html" class="sidebar-link">目录结构</a></li><li><a href="/guide/deploy.html" class="sidebar-link">运维部署</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>核心功能</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/guide/generator.html" class="sidebar-link">生成CRUD代码</a></li><li><a href="/guide/springbootadmin.html" class="sidebar-link">Spring Boot Admin</a></li><li><a href="/guide/centos-deploy.html" class="sidebar-link">CentOS发布</a></li><li><a href="/guide/upload-download-resource.html" class="sidebar-link">文件上传/下载/静态资源访问</a></li><li><a href="/guide/shiro-jwt.html" class="sidebar-link">Shiro+JWT权限管理</a></li><li><a href="/guide/rbac.html" class="sidebar-link">RBAC用户角色权限</a></li><li><a href="/guide/cors.html" class="sidebar-link">CORS跨域处理</a></li><li><a href="/guide/xss.html" class="sidebar-link">XSS跨站脚本攻击处理</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>FAQ</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/guide/faq.html" class="sidebar-link">FAQ</a></li><li><a href="/guide/idea-spring-boot-plus.html" class="sidebar-link">IDEA导入spring-boot-plus</a></li><li><a href="/guide/eclipse-spring-boot-plus.html" class="sidebar-link">Eclipse导入spring-boot-plus</a></li><li><a href="/guide/swagger-scan-package.html" class="sidebar-link">Swagger扫描多个包</a></li><li><a href="/guide/oracle.html" class="sidebar-link">spring-boot-plus使用Oracle配置</a></li><li><a href="/guide/sqlserver.html" class="active sidebar-link">spring-boot-plus使用SQLServer配置</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/guide/sqlserver.html#sqlserver初始化脚本" class="sidebar-link">SQLServer初始化脚本</a></li><li class="sidebar-sub-header"><a href="/guide/sqlserver.html#配置文件修改" class="sidebar-link">配置文件修改</a></li><li class="sidebar-sub-header"><a href="/guide/sqlserver.html#代码生成器配置" class="sidebar-link">代码生成器配置</a></li><li class="sidebar-sub-header"><a href="/guide/sqlserver.html#修改mybatisplusconfig" class="sidebar-link">修改MybatisPlusConfig</a></li><li class="sidebar-sub-header"><a href="/guide/sqlserver.html#生成的部分代码" class="sidebar-link">生成的部分代码</a></li><li class="sidebar-sub-header"><a href="/guide/sqlserver.html#swagger-crud" class="sidebar-link">Swagger CRUD</a></li></ul></li><li><a href="/guide/contact.html" class="sidebar-link">QQ技术交流群</a></li><li><a href="/guide/donate.html" class="sidebar-link">赞赏支持</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="spring-boot-plus使用sqlserver配置"><a href="#spring-boot-plus使用sqlserver配置" aria-hidden="true" class="header-anchor">#</a> spring-boot-plus使用SQLServer配置</h1> <h2 id="sqlserver初始化脚本"><a href="#sqlserver初始化脚本" aria-hidden="true" class="header-anchor">#</a> SQLServer初始化脚本</h2> <p><a href="https://gitee.com/geekidea/spring-boot-plus/blob/dev/docs/db/sqlserver_spring_boot_plus.sql" target="_blank" rel="noopener noreferrer">sqlserver_spring_boot_plus.sql<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <h2 id="配置文件修改"><a href="#配置文件修改" aria-hidden="true" class="header-anchor">#</a> 配置文件修改</h2> <h3 id="pom-xml添加sqlserver驱动包"><a href="#pom-xml添加sqlserver驱动包" aria-hidden="true" class="header-anchor">#</a> pom.xml添加SQLServer驱动包</h3> <div class="language-xml extra-class"><pre class="language-xml"><code><span class="token comment">&lt;!-- SQLServer2008 --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>com.microsoft.sqlserver<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>mssql-jdbc<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>6.4.0.jre8<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h3 id="配置文件修改-2"><a href="#配置文件修改-2" aria-hidden="true" class="header-anchor">#</a> 配置文件修改</h3> <blockquote><p>application.yml</p></blockquote> <ul><li>设置SQLServer驱动名称</li></ul> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">datasource</span><span class="token punctuation">:</span>
+    <span class="token key atrule">driver-class-name</span><span class="token punctuation">:</span> com.microsoft.sqlserver.jdbc.SQLServerDriver
+</code></pre></div><ul><li>设置mybatis-plus的主键类型为<code>auto</code></li></ul> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">mybatis-plus</span><span class="token punctuation">:</span>
+  <span class="token key atrule">global-config</span><span class="token punctuation">:</span>
+    <span class="token key atrule">db-config</span><span class="token punctuation">:</span>
+      <span class="token comment"># 全局默认主键类型</span>
+      <span class="token key atrule">id-type</span><span class="token punctuation">:</span> auto
+</code></pre></div><blockquote><p>application-local.yml</p></blockquote> <ul><li>设置SQLServer数据库连接信息</li></ul> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">datasource</span><span class="token punctuation">:</span>
+    <span class="token key atrule">url</span><span class="token punctuation">:</span> jdbc<span class="token punctuation">:</span>sqlserver<span class="token punctuation">:</span>//172.20.10.6<span class="token punctuation">:</span>1433;database=spring_boot_plus
+    <span class="token key atrule">username</span><span class="token punctuation">:</span> sa
+    <span class="token key atrule">password</span><span class="token punctuation">:</span> sqlserver2008
+</code></pre></div><h2 id="代码生成器配置"><a href="#代码生成器配置" aria-hidden="true" class="header-anchor">#</a> 代码生成器配置</h2> <h3 id="springbootplusgenerator"><a href="#springbootplusgenerator" aria-hidden="true" class="header-anchor">#</a> SpringBootPlusGenerator</h3> <blockquote><p>设置SQLServer数据库连接信息</p></blockquote> <div class="language-java extra-class"><pre class="language-java"><code>codeGenerator
+        <span class="token punctuation">.</span><span class="token function">setUserName</span><span class="token punctuation">(</span><span class="token string">&quot;sa&quot;</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">setPassword</span><span class="token punctuation">(</span><span class="token string">&quot;sqlserver2008&quot;</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">setDriverName</span><span class="token punctuation">(</span><span class="token string">&quot;com.microsoft.sqlserver.jdbc.SQLServerDriver&quot;</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">setDriverUrl</span><span class="token punctuation">(</span><span class="token string">&quot;jdbc:sqlserver://172.20.10.6:1433;database=spring_boot_plus&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="codegenerator"><a href="#codegenerator" aria-hidden="true" class="header-anchor">#</a> CodeGenerator</h3> <blockquote><p>设置DbType</p></blockquote> <ul><li>在generator()方法中配置DataSourceConfig</li> <li>注释 <code>dsc.setDbQuery(new SpringBootPlusMySqlQuery());</code></li> <li>设置DbType为SQLServer</li></ul> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">// MySQL</span>
+<span class="token comment">// dsc.setDbQuery(new SpringBootPlusMySqlQuery());</span>
+
+<span class="token comment">// SQLServer2005/2008</span>
+dsc<span class="token punctuation">.</span><span class="token function">setDbType</span><span class="token punctuation">(</span><span class="token class-name">DbType</span><span class="token punctuation">.</span>SQL_SERVER2005<span class="token punctuation">)</span><span class="token punctuation">;</span>
+dsc<span class="token punctuation">.</span><span class="token function">setDbQuery</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">SpringBootPlusSqlServerQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+mpg<span class="token punctuation">.</span><span class="token function">setDataSource</span><span class="token punctuation">(</span>dsc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="生成代码注意事项"><a href="#生成代码注意事项" aria-hidden="true" class="header-anchor">#</a> 生成代码注意事项</h3> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">// 需要生成的表数组</span>
+<span class="token comment">// xxx,yyy,zzz为需要生成代码的表名称</span>
+<span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> tables <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;foo_bar&quot;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div><h2 id="修改mybatisplusconfig"><a href="#修改mybatisplusconfig" aria-hidden="true" class="header-anchor">#</a> 修改MybatisPlusConfig</h2> <ul><li>配置DbType为SQLServer</li></ul> <div class="language-yaml extra-class"><pre class="language-yaml"><code>@Configuration
+public class MybatisPlusConfig <span class="token punctuation">{</span>
+
+    /**
+     * mybatis<span class="token punctuation">-</span>plus分页插件
+     */
+    @Bean
+    public PaginationInterceptor paginationInterceptor() <span class="token punctuation">{</span>
+        PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+        // SQLServer2005/2008配置
+        paginationInterceptor.setDbType(DbType.SQL_SERVER2005);
+        return paginationInterceptor;
+    <span class="token punctuation">}</span>
+
+    /**
+     * mybatios<span class="token punctuation">-</span>plus乐观锁插件
+     *
+     * @return
+     */
+    @Bean
+    public OptimisticLockerInterceptor optimisticLockerInterceptor() <span class="token punctuation">{</span>
+        return new OptimisticLockerInterceptor();
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="生成的部分代码"><a href="#生成的部分代码" aria-hidden="true" class="header-anchor">#</a> 生成的部分代码</h2> <blockquote><p>entity</p></blockquote> <ul><li><code>@TableId</code>对应主键列</li> <li><code>IdType.AUTO</code>为主键自增</li></ul> <div class="language-java extra-class"><pre class="language-java"><code><span class="token annotation punctuation">@Data</span>
+<span class="token annotation punctuation">@Accessors</span><span class="token punctuation">(</span>chain <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@EqualsAndHashCode</span><span class="token punctuation">(</span>callSuper <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@ApiModel</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">&quot;FooBar对象&quot;</span><span class="token punctuation">,</span> description <span class="token operator">=</span> <span class="token string">&quot;FooBar&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FooBar</span> <span class="token keyword">extends</span> <span class="token class-name">BaseEntity</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">long</span> serialVersionUID <span class="token operator">=</span> <span class="token number">1L</span><span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@ApiModelProperty</span><span class="token punctuation">(</span><span class="token string">&quot;主键&quot;</span><span class="token punctuation">)</span>
+    <span class="token annotation punctuation">@TableId</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">&quot;id&quot;</span><span class="token punctuation">,</span> type <span class="token operator">=</span> <span class="token class-name">IdType</span><span class="token punctuation">.</span>AUTO<span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">Long</span> id<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@ApiModelProperty</span><span class="token punctuation">(</span><span class="token string">&quot;名称&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> name<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@ApiModelProperty</span><span class="token punctuation">(</span><span class="token string">&quot;Foo&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> foo<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@ApiModelProperty</span><span class="token punctuation">(</span><span class="token string">&quot;Bar&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> bar<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@ApiModelProperty</span><span class="token punctuation">(</span><span class="token string">&quot;备注&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> remark<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@ApiModelProperty</span><span class="token punctuation">(</span><span class="token string">&quot;状态，0：禁用，1：启用&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">Integer</span> state<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@ApiModelProperty</span><span class="token punctuation">(</span><span class="token string">&quot;版本&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">Integer</span> version<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@ApiModelProperty</span><span class="token punctuation">(</span><span class="token string">&quot;创建时间&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">Date</span> createTime<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@ApiModelProperty</span><span class="token punctuation">(</span><span class="token string">&quot;修改时间&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">Date</span> updateTime<span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span>
+</code></pre></div><blockquote><p>xml</p></blockquote> <div class="language-xml extra-class"><pre class="language-xml"><code><span class="token prolog">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="token doctype">&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mapper</span> <span class="token attr-name">namespace</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>io.geekidea.springbootplus.foorbar.mapper.FooBarMapper<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+
+    <span class="token comment">&lt;!-- 通用查询结果列 --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sql</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>Base_Column_List<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+        id, name, foo, bar, remark, state, version, create_time, update_time
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>sql</span><span class="token punctuation">&gt;</span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>getFooBarById<span class="token punctuation">&quot;</span></span> <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>io.geekidea.springbootplus.foorbar.vo.FooBarQueryVo<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+        select
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>include</span> <span class="token attr-name">refid</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>Base_Column_List<span class="token punctuation">&quot;</span></span><span class="token punctuation">/&gt;</span></span>
+        from foo_bar where id = #{id}
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>getFooBarPageList<span class="token punctuation">&quot;</span></span> <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>io.geekidea.springbootplus.foorbar.vo.FooBarQueryVo<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+        select
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>include</span> <span class="token attr-name">refid</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>Base_Column_List<span class="token punctuation">&quot;</span></span><span class="token punctuation">/&gt;</span></span>
+        from foo_bar
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mapper</span><span class="token punctuation">&gt;</span></span>
+
+</code></pre></div><h2 id="swagger-crud"><a href="#swagger-crud" aria-hidden="true" class="header-anchor">#</a> Swagger CRUD</h2> <h3 id="添加数据"><a href="#添加数据" aria-hidden="true" class="header-anchor">#</a> 添加数据</h3> <ul><li>请求路径：http://127.0.0.1:8888/api/fooBar/add</li></ul> <h4 id="请求参数"><a href="#请求参数" aria-hidden="true" class="header-anchor">#</a> 请求参数</h4> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;bar&quot;</span><span class="token operator">:</span> <span class="token string">&quot;添加数据&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;foo&quot;</span><span class="token operator">:</span> <span class="token string">&quot;test&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;state&quot;</span><span class="token operator">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="响应结果"><a href="#响应结果" aria-hidden="true" class="header-anchor">#</a> 响应结果</h4> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;code&quot;</span><span class="token operator">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;message&quot;</span><span class="token operator">:</span> <span class="token string">&quot;操作成功&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;success&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;data&quot;</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;time&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2020-03-12 01:05:44&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="insert-sql语句"><a href="#insert-sql语句" aria-hidden="true" class="header-anchor">#</a> INSERT SQL语句</h4> <div class="language-text extra-class"><pre class="language-text"><code>==&gt;  Preparing: INSERT INTO foo_bar ( name, foo, bar, state ) VALUES ( ?, ?, ?, ? ) 
+==&gt; Parameters: hello(String), test(String), 添加数据(String), 0(Integer)
+&lt;==    Updates: 1
+</code></pre></div><h3 id="修改数据"><a href="#修改数据" aria-hidden="true" class="header-anchor">#</a> 修改数据</h3> <ul><li>请求路径：http://127.0.0.1:8888/api/fooBar/update</li></ul> <h4 id="请求参数-2"><a href="#请求参数-2" aria-hidden="true" class="header-anchor">#</a> 请求参数</h4> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;id&quot;</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;bar&quot;</span><span class="token operator">:</span> <span class="token string">&quot;修改数据&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;foo&quot;</span><span class="token operator">:</span> <span class="token string">&quot;updaet&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;state&quot;</span><span class="token operator">:</span> <span class="token number">1</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="响应结果-2"><a href="#响应结果-2" aria-hidden="true" class="header-anchor">#</a> 响应结果</h4> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;code&quot;</span><span class="token operator">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;message&quot;</span><span class="token operator">:</span> <span class="token string">&quot;操作成功&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;success&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;data&quot;</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;time&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2020-03-12 01:10:01&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="update-sql语句"><a href="#update-sql语句" aria-hidden="true" class="header-anchor">#</a> UPDATE SQL语句</h4> <div class="language-text extra-class"><pre class="language-text"><code>==&gt;  Preparing: UPDATE foo_bar SET name=?, foo=?, bar=?, state=? WHERE id=? 
+==&gt; Parameters: hello(String), updaet(String), 修改数据(String), 1(Integer), 5(Long)
+&lt;==    Updates: 1
+</code></pre></div><h3 id="根据id查询"><a href="#根据id查询" aria-hidden="true" class="header-anchor">#</a> 根据ID查询</h3> <ul><li>请求路径：http://127.0.0.1:8888/api/fooBar/info/5</li></ul> <h4 id="响应结果-3"><a href="#响应结果-3" aria-hidden="true" class="header-anchor">#</a> 响应结果</h4> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;code&quot;</span><span class="token operator">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;message&quot;</span><span class="token operator">:</span> <span class="token string">&quot;操作成功&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;success&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;data&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;id&quot;</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;foo&quot;</span><span class="token operator">:</span> <span class="token string">&quot;updaet&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;bar&quot;</span><span class="token operator">:</span> <span class="token string">&quot;修改数据&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;remark&quot;</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;state&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;version&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;createTime&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2020-03-10 16:08:14&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;updateTime&quot;</span><span class="token operator">:</span> <span class="token null keyword">null</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;time&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2020-03-12 01:14:10&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="select-sql语句"><a href="#select-sql语句" aria-hidden="true" class="header-anchor">#</a> SELECT SQL语句</h4> <div class="language-text extra-class"><pre class="language-text"><code>==&gt;  Preparing: select id, name, foo, bar, remark, state, version, create_time, update_time from foo_bar where id = ? 
+==&gt; Parameters: 5(Long)
+&lt;==    Columns: id, name, foo, bar, remark, state, version, create_time, update_time
+&lt;==        Row: 5, hello, updaet, 修改数据, null, 1, 0, 2020-03-10 16:08:14.93, null
+&lt;==      Total: 1
+</code></pre></div><h3 id="分页查询"><a href="#分页查询" aria-hidden="true" class="header-anchor">#</a> 分页查询</h3> <ul><li>请求路径：http://127.0.0.1:8888/api/fooBar/getPageList</li></ul> <h4 id="请求参数-3"><a href="#请求参数-3" aria-hidden="true" class="header-anchor">#</a> 请求参数</h4> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span><span class="token punctuation">}</span>
+</code></pre></div><h4 id="响应结果-4"><a href="#响应结果-4" aria-hidden="true" class="header-anchor">#</a> 响应结果</h4> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;code&quot;</span><span class="token operator">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;message&quot;</span><span class="token operator">:</span> <span class="token string">&quot;操作成功&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;success&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;data&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;lastRowLimitValue&quot;</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;total&quot;</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;records&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token property">&quot;id&quot;</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;foo&quot;</span><span class="token operator">:</span> <span class="token string">&quot;updaet&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;bar&quot;</span><span class="token operator">:</span> <span class="token string">&quot;修改数据&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;remark&quot;</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;state&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;version&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;createTime&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2020-03-10 16:08:14&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;updateTime&quot;</span><span class="token operator">:</span> <span class="token null keyword">null</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token property">&quot;id&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;FooBar&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;foo&quot;</span><span class="token operator">:</span> <span class="token string">&quot;foo&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;bar&quot;</span><span class="token operator">:</span> <span class="token string">&quot;bar&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;remark&quot;</span><span class="token operator">:</span> <span class="token string">&quot;remark...&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;state&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;version&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;createTime&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2019-11-01 14:05:14&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;updateTime&quot;</span><span class="token operator">:</span> <span class="token null keyword">null</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token property">&quot;id&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;HelloWorld&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;foo&quot;</span><span class="token operator">:</span> <span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;bar&quot;</span><span class="token operator">:</span> <span class="token string">&quot;world&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;remark&quot;</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;state&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;version&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;createTime&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2019-11-01 14:05:14&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;updateTime&quot;</span><span class="token operator">:</span> <span class="token null keyword">null</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;time&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2020-03-12 01:16:00&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="分页查询sql语句"><a href="#分页查询sql语句" aria-hidden="true" class="header-anchor">#</a> 分页查询SQL语句</h4> <div class="language-text extra-class"><pre class="language-text"><code>==&gt;  Preparing: SELECT COUNT(1) FROM foo_bar 
+==&gt; Parameters: 
+&lt;==    Columns: 
+&lt;==        Row: 3
+==&gt;  Preparing: WITH selectTemp AS (SELECT TOP 100 PERCENT ROW_NUMBER() OVER (ORDER BY create_time DESC) as __row_number__, id, name, foo, bar, remark, state, version, create_time, update_time FROM foo_bar ORDER BY create_time DESC) SELECT * FROM selectTemp WHERE __row_number__ BETWEEN 1 AND 10 ORDER BY __row_number__ 
+==&gt; Parameters: 
+&lt;==    Columns: __row_number__, id, name, foo, bar, remark, state, version, create_time, update_time
+&lt;==        Row: 1, 5, hello, updaet, 修改数据, null, 1, 0, 2020-03-10 16:08:14.93, null
+&lt;==        Row: 2, 1, FooBar, foo, bar, remark..., 1, 0, 2019-11-01 14:05:14.0, null
+&lt;==        Row: 3, 2, HelloWorld, hello, world, null, 1, 0, 2019-11-01 14:05:14.0, null
+&lt;==      Total: 3
+</code></pre></div><h3 id="根据id删除"><a href="#根据id删除" aria-hidden="true" class="header-anchor">#</a> 根据ID删除</h3> <ul><li>请求路径：http://127.0.0.1:8888/api/fooBar/delete/5</li></ul> <h4 id="响应结果-5"><a href="#响应结果-5" aria-hidden="true" class="header-anchor">#</a> 响应结果</h4> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;code&quot;</span><span class="token operator">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;message&quot;</span><span class="token operator">:</span> <span class="token string">&quot;操作成功&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;success&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;data&quot;</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;time&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2020-03-12 01:20:42&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="delete-sql语句"><a href="#delete-sql语句" aria-hidden="true" class="header-anchor">#</a> DELETE SQL语句</h4> <div class="language-text extra-class"><pre class="language-text"><code>==&gt;  Preparing: DELETE FROM foo_bar WHERE id=? 
+==&gt; Parameters: 5(Long)
+&lt;==    Updates: 1
+</code></pre></div></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/geekidea/spring-boot-plus-doc/edit/master/guide/sqlserver.md" target="_blank" rel="noopener noreferrer">在 GitHub 上编辑此页</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/guide/oracle.html" class="prev">spring-boot-plus使用Oracle配置</a></span> <span class="next"><a href="/guide/contact.html">QQ技术交流群</a>→
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.db17a95a.js" defer></script><script src="/assets/js/2.6d1275ea.js" defer></script><script src="/assets/js/54.23543b0e.js" defer></script>
+  </body>
+</html>

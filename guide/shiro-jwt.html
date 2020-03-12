@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Shiro+JWT权限管理 | spring-boot-plus</title>
+    <meta name="description" content="spring-boot-plus集成Shiro+JWT，执行身份验证、授权、密码和会话管理">
+    <link rel="icon" href="/favicon.ico">
+  <script>var _hmt = _hmt || []; (function() {var hm = document.createElement("script"); hm.src = "https://hm.baidu.com/hm.js?f5cf3abbd62a6b246284fc0259a2a17d"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();</script>
+  <script>console.log("%c                 _                    _                 _                _\n                (_)                  | |               | |              | |\n  ___ _ __  _ __ _ _ __   __ _ ______| |__   ___   ___ | |_ ______ _ __ | |_   _ ___\n / __| '_ \\| '__| | '_ \\ / _` |______| '_ \\ / _ \\ / _ \\| __|______| '_ \\| | | | / __|\n \\__ \\ |_) | |  | | | | | (_| |      | |_) | (_) | (_) | |_       | |_) | | |_| \\__ \\\n |___/ .__/|_|  |_|_| |_|\\__, |      |_.__/ \\___/ \\___/ \\__|      | .__/|_|\\__,_|___/\n     | |                  __/ |                                   | |\n     |_|                 |___/                                    |_|","color:blue");</script>
+  <script>console.log("%c      :: Spring Boot ::             (v2.2.0.RELEASE)","color:blue");console.log("%c      :: Spring Boot Plus ::        (v1.4.0)","color:blue");console.log("%c      :: spring-boot-plus ::        https://springboot.plus","color:blue");</script>
+  <script>console.log("%cWelcome to spring-boot-plus","color:blue");console.log("%cGITHUB：https://github.com/geekidea/spring-boot-plus","color:blue");console.log("%cGITEE：https://gitee.com/geekidea/spring-boot-plus","color:blue");console.log("%cBlog：https://geekidea.io","color:blue");console.log("%cWebsite：https://springboot.plus","color:blue");</script>
+    <meta name="keywords" content="springboot,springbootplus,shiro,jwt,shiro+jwt">
+    <link rel="preload" href="/assets/css/0.styles.6625b277.css" as="style"><link rel="preload" href="/assets/js/app.db17a95a.js" as="script"><link rel="preload" href="/assets/js/2.6d1275ea.js" as="script"><link rel="preload" href="/assets/js/52.a73139ed.js" as="script"><link rel="prefetch" href="/assets/js/10.5be2a980.js"><link rel="prefetch" href="/assets/js/11.9362ee1a.js"><link rel="prefetch" href="/assets/js/12.e856ce33.js"><link rel="prefetch" href="/assets/js/13.8548df14.js"><link rel="prefetch" href="/assets/js/14.d421edbb.js"><link rel="prefetch" href="/assets/js/15.aa803848.js"><link rel="prefetch" href="/assets/js/16.1f82aa42.js"><link rel="prefetch" href="/assets/js/17.b76ebf7e.js"><link rel="prefetch" href="/assets/js/18.7c403e8a.js"><link rel="prefetch" href="/assets/js/19.85862406.js"><link rel="prefetch" href="/assets/js/20.50118e6e.js"><link rel="prefetch" href="/assets/js/21.6ecbad1e.js"><link rel="prefetch" href="/assets/js/22.04150677.js"><link rel="prefetch" href="/assets/js/23.31e42250.js"><link rel="prefetch" href="/assets/js/24.62d268d4.js"><link rel="prefetch" href="/assets/js/25.bc860894.js"><link rel="prefetch" href="/assets/js/26.3d26b5e3.js"><link rel="prefetch" href="/assets/js/27.8e7349c7.js"><link rel="prefetch" href="/assets/js/28.4c239e18.js"><link rel="prefetch" href="/assets/js/29.aaac18de.js"><link rel="prefetch" href="/assets/js/3.54236c22.js"><link rel="prefetch" href="/assets/js/30.9db4eedc.js"><link rel="prefetch" href="/assets/js/31.e2f591b8.js"><link rel="prefetch" href="/assets/js/32.6f75b9c1.js"><link rel="prefetch" href="/assets/js/33.fdd459fb.js"><link rel="prefetch" href="/assets/js/34.7c8a0eef.js"><link rel="prefetch" href="/assets/js/35.8ad0c5f3.js"><link rel="prefetch" href="/assets/js/36.8e373213.js"><link rel="prefetch" href="/assets/js/37.95287516.js"><link rel="prefetch" href="/assets/js/38.282f1db3.js"><link rel="prefetch" href="/assets/js/39.34f2b25f.js"><link rel="prefetch" href="/assets/js/4.337abf8d.js"><link rel="prefetch" href="/assets/js/40.ba84faba.js"><link rel="prefetch" href="/assets/js/41.6a8df5b8.js"><link rel="prefetch" href="/assets/js/42.02bc737b.js"><link rel="prefetch" href="/assets/js/43.5b34dcc0.js"><link rel="prefetch" href="/assets/js/44.d430d71d.js"><link rel="prefetch" href="/assets/js/45.eaa465f2.js"><link rel="prefetch" href="/assets/js/46.11cd0dc4.js"><link rel="prefetch" href="/assets/js/47.65a87e15.js"><link rel="prefetch" href="/assets/js/48.250dd2e3.js"><link rel="prefetch" href="/assets/js/49.5d4f098b.js"><link rel="prefetch" href="/assets/js/5.76db1105.js"><link rel="prefetch" href="/assets/js/50.bb697104.js"><link rel="prefetch" href="/assets/js/51.5f6f5b65.js"><link rel="prefetch" href="/assets/js/53.4d2c7093.js"><link rel="prefetch" href="/assets/js/54.23543b0e.js"><link rel="prefetch" href="/assets/js/55.5f10a002.js"><link rel="prefetch" href="/assets/js/56.90a14ce0.js"><link rel="prefetch" href="/assets/js/57.d16f247e.js"><link rel="prefetch" href="/assets/js/58.9477625f.js"><link rel="prefetch" href="/assets/js/59.b90e777a.js"><link rel="prefetch" href="/assets/js/6.7b498927.js"><link rel="prefetch" href="/assets/js/60.9ac1ad41.js"><link rel="prefetch" href="/assets/js/61.76ce5abb.js"><link rel="prefetch" href="/assets/js/7.c2acd43f.js"><link rel="prefetch" href="/assets/js/8.39f782cd.js"><link rel="prefetch" href="/assets/js/9.241eeeec.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.6625b277.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">spring-boot-plus</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/guide/" class="nav-link router-link-active">指南</a></div><div class="nav-item"><a href="/config/" class="nav-link">配置</a></div><div class="nav-item"><a href="https://github.com/geekidea/spring-boot-plus/blob/master/CHANGELOG.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  更新日志
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://geekidea.io/spring-boot-plus-apidocs/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Java Api
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://47.105.159.10/api/docs" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Swagger
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://47.105.159.10/api" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  后端演示
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://47.105.159.10" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  前端演示
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">Languages</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/guide/shiro-jwt.html" class="nav-link router-link-exact-active router-link-active">简体中文</a></li><li class="dropdown-item"><!----> <a href="/en/guide/shiro-jwt.html" class="nav-link">English</a></li></ul></div></div> <a href="https://github.com/geekidea/spring-boot-plus" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/guide/" class="nav-link router-link-active">指南</a></div><div class="nav-item"><a href="/config/" class="nav-link">配置</a></div><div class="nav-item"><a href="https://github.com/geekidea/spring-boot-plus/blob/master/CHANGELOG.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  更新日志
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://geekidea.io/spring-boot-plus-apidocs/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Java Api
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://47.105.159.10/api/docs" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Swagger
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://47.105.159.10/api" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  后端演示
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="http://47.105.159.10" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  前端演示
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">Languages</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/guide/shiro-jwt.html" class="nav-link router-link-exact-active router-link-active">简体中文</a></li><li class="dropdown-item"><!----> <a href="/en/guide/shiro-jwt.html" class="nav-link">English</a></li></ul></div></div> <a href="https://github.com/geekidea/spring-boot-plus" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>快速入门</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/guide/" class="sidebar-link">简介</a></li><li><a href="/guide/quick-start.html" class="sidebar-link">快速开始</a></li><li><a href="/guide/project-config.html" class="sidebar-link">配置文件</a></li><li><a href="/guide/tree.html" class="sidebar-link">目录结构</a></li><li><a href="/guide/deploy.html" class="sidebar-link">运维部署</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>核心功能</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/guide/generator.html" class="sidebar-link">生成CRUD代码</a></li><li><a href="/guide/springbootadmin.html" class="sidebar-link">Spring Boot Admin</a></li><li><a href="/guide/centos-deploy.html" class="sidebar-link">CentOS发布</a></li><li><a href="/guide/upload-download-resource.html" class="sidebar-link">文件上传/下载/静态资源访问</a></li><li><a href="/guide/shiro-jwt.html" class="active sidebar-link">Shiro+JWT权限管理</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/guide/shiro-jwt.html#shiro" class="sidebar-link">Shiro</a></li><li class="sidebar-sub-header"><a href="/guide/shiro-jwt.html#jwt" class="sidebar-link">JWT</a></li><li class="sidebar-sub-header"><a href="/guide/shiro-jwt.html#springboot-shiro-jwt" class="sidebar-link">SpringBoot+Shiro+JWT</a></li></ul></li><li><a href="/guide/rbac.html" class="sidebar-link">RBAC用户角色权限</a></li><li><a href="/guide/cors.html" class="sidebar-link">CORS跨域处理</a></li><li><a href="/guide/xss.html" class="sidebar-link">XSS跨站脚本攻击处理</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>FAQ</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/guide/faq.html" class="sidebar-link">FAQ</a></li><li><a href="/guide/idea-spring-boot-plus.html" class="sidebar-link">IDEA导入spring-boot-plus</a></li><li><a href="/guide/eclipse-spring-boot-plus.html" class="sidebar-link">Eclipse导入spring-boot-plus</a></li><li><a href="/guide/swagger-scan-package.html" class="sidebar-link">Swagger扫描多个包</a></li><li><a href="/guide/oracle.html" class="sidebar-link">spring-boot-plus使用Oracle配置</a></li><li><a href="/guide/sqlserver.html" class="sidebar-link">spring-boot-plus使用SQLServer配置</a></li><li><a href="/guide/contact.html" class="sidebar-link">QQ技术交流群</a></li><li><a href="/guide/donate.html" class="sidebar-link">赞赏支持</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="shiro-jwt权限管理"><a href="#shiro-jwt权限管理" aria-hidden="true" class="header-anchor">#</a> Shiro+JWT权限管理</h1> <h2 id="shiro"><a href="#shiro" aria-hidden="true" class="header-anchor">#</a> Shiro</h2> <div class="tip custom-block"><p class="custom-block-title">Shiro</p> <ul><li>Apache Shiro是一个强大且易用的Java安全框架,执行身份验证、授权、密码和会话管理。</li> <li>使用Shiro的易于理解的API,您可以快速、轻松地获得任何应用程序,从最小的移动应用程序到最大的网络和企业应用程序。</li></ul></div> <blockquote><p>三个核心组件：<code>Subject</code>, <code>SecurityManager</code> 和 <code>Realms</code>.</p></blockquote> <ul><li><p>Subject代表了当前用户的安全操作,即“当前操作用户”。</p></li> <li><p>SecurityManager：它是Shiro框架的核心，典型的Facade模式，Shiro通过SecurityManager来管理内部组件实例，并通过它来提供安全管理的各种服务。</p></li> <li><p>Realm： Realm充当了Shiro与应用安全数据间的“桥梁”或者“连接器”。也就是说，当对用户执行认证（登录）和授权（访问控制）验证时，Shiro会从应用配置的Realm中查找用户及其权限信息。</p></li> <li><p>ShiroBasicArchitecture
+<img src="http://shiro.apache.org/assets/images/ShiroBasicArchitecture.png" alt="ShiroBasicArchitecture"></p></li> <li><p>ShiroArchitecture
+<img src="http://shiro.apache.org/assets/images/ShiroArchitecture.png" alt="ShiroArchitecture"></p></li></ul> <h2 id="jwt"><a href="#jwt" aria-hidden="true" class="header-anchor">#</a> JWT</h2> <div class="tip custom-block"><p class="custom-block-title">JWT</p> <ul><li>JSON Web Token（JWT）是目前最流行的跨域身份验证解决方案</li> <li>JSON Web令牌是一种开放的行业标准  RFC 7519方法，用于在双方之间安全地表示声明。</li></ul></div> <h3 id="jwt-数据结构"><a href="#jwt-数据结构" aria-hidden="true" class="header-anchor">#</a> JWT 数据结构</h3> <div class="language-text extra-class"><pre class="language-text"><code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3NwcmluZ2Jvb3QucGx1cyIsIm5hbWUiOiJzcHJpbmctYm9vdC1wbHVzIiwiaWF0IjoxNTE2MjM5MDIyfQ.1Cm7Ej8oIy1P5pkpu8-Q0B7bTU254I1og-ZukEe84II
+</code></pre></div><p><img src="https://raw.githubusercontent.com/geekidea/spring-boot-plus-doc/master/.vuepress/public/img/jwt.png" alt="jwt"></p> <blockquote><p>JWT有三部分组成：<code>Header</code>:头部，<code>Payload</code>:负载，<code>Signature</code>:签名</p></blockquote> <h2 id="springboot-shiro-jwt"><a href="#springboot-shiro-jwt" aria-hidden="true" class="header-anchor">#</a> SpringBoot+Shiro+JWT</h2> <h3 id="pom-xml-shiro依赖"><a href="#pom-xml-shiro依赖" aria-hidden="true" class="header-anchor">#</a> pom.xml Shiro依赖</h3> <div class="language-xml extra-class"><pre class="language-xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.apache.shiro<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>shiro-spring<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>${shiro.version}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h3 id="pom-xml-jwt依赖"><a href="#pom-xml-jwt依赖" aria-hidden="true" class="header-anchor">#</a> pom.xml JWT依赖</h3> <div class="language-xml extra-class"><pre class="language-xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>com.auth0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>java-jwt<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>3.8.3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h3 id="shiroconfig-java配置"><a href="#shiroconfig-java配置" aria-hidden="true" class="header-anchor">#</a> ShiroConfig.java配置</h3> <div class="language-java extra-class"><pre class="language-java"><code><span class="token annotation punctuation">@Slf4j</span>
+<span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@EnableConfigurationProperties</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        <span class="token class-name">ShiroProperties</span><span class="token punctuation">.</span><span class="token keyword">class</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ShiroConfig</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">/**
+     * JWT过滤器名称
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> JWT_FILTER_NAME <span class="token operator">=</span> <span class="token string">&quot;jwtFilter&quot;</span><span class="token punctuation">;</span>
+    <span class="token comment">/**
+     * 请求路径过滤器名称
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> REQUEST_PATH_FILTER_NAME <span class="token operator">=</span> <span class="token string">&quot;path&quot;</span><span class="token punctuation">;</span>
+    <span class="token comment">/**
+     * Shiro过滤器名称
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> SHIRO_FILTER_NAME <span class="token operator">=</span> <span class="token string">&quot;shiroFilter&quot;</span><span class="token punctuation">;</span>
+
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">CredentialsMatcher</span> <span class="token function">credentialsMatcher</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">JwtCredentialsMatcher</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * JWT数据源验证
+     *
+     * @return
+     */</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">JwtRealm</span> <span class="token function">jwtRealm</span><span class="token punctuation">(</span><span class="token class-name">LoginRedisService</span> loginRedisService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">JwtRealm</span> jwtRealm <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JwtRealm</span><span class="token punctuation">(</span>loginRedisService<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        jwtRealm<span class="token punctuation">.</span><span class="token function">setCachingEnabled</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        jwtRealm<span class="token punctuation">.</span><span class="token function">setCredentialsMatcher</span><span class="token punctuation">(</span><span class="token function">credentialsMatcher</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> jwtRealm<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">SessionStorageEvaluator</span> <span class="token function">sessionStorageEvaluator</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">DefaultSessionStorageEvaluator</span> sessionStorageEvaluator <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DefaultWebSessionStorageEvaluator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        sessionStorageEvaluator<span class="token punctuation">.</span><span class="token function">setSessionStorageEnabled</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> sessionStorageEvaluator<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">DefaultSubjectDAO</span> <span class="token function">subjectDAO</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">DefaultSubjectDAO</span> defaultSubjectDAO <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DefaultSubjectDAO</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        defaultSubjectDAO<span class="token punctuation">.</span><span class="token function">setSessionStorageEvaluator</span><span class="token punctuation">(</span><span class="token function">sessionStorageEvaluator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> defaultSubjectDAO<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 安全管理器配置
+     *
+     * @return
+     */</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">SecurityManager</span> <span class="token function">securityManager</span><span class="token punctuation">(</span><span class="token class-name">LoginRedisService</span> loginRedisService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">DefaultWebSecurityManager</span> securityManager <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DefaultWebSecurityManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        securityManager<span class="token punctuation">.</span><span class="token function">setRealm</span><span class="token punctuation">(</span><span class="token function">jwtRealm</span><span class="token punctuation">(</span>loginRedisService<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        securityManager<span class="token punctuation">.</span><span class="token function">setSubjectDAO</span><span class="token punctuation">(</span><span class="token function">subjectDAO</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">SecurityUtils</span><span class="token punctuation">.</span><span class="token function">setSecurityManager</span><span class="token punctuation">(</span>securityManager<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> securityManager<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * ShiroFilterFactoryBean配置
+     *
+     * @param securityManager
+     * @param loginRedisService
+     * @param shiroProperties
+     * @param jwtProperties
+     * @return
+     */</span>
+    <span class="token annotation punctuation">@Bean</span><span class="token punctuation">(</span>SHIRO_FILTER_NAME<span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token class-name">ShiroFilterFactoryBean</span> <span class="token function">shiroFilterFactoryBean</span><span class="token punctuation">(</span><span class="token class-name">SecurityManager</span> securityManager<span class="token punctuation">,</span>
+                                                         <span class="token class-name">LoginService</span> loginService<span class="token punctuation">,</span>
+                                                         <span class="token class-name">LoginRedisService</span> loginRedisService<span class="token punctuation">,</span>
+                                                         <span class="token class-name">SpringBootPlusFilterProperties</span> filterProperties<span class="token punctuation">,</span>
+                                                         <span class="token class-name">ShiroProperties</span> shiroProperties<span class="token punctuation">,</span>
+                                                         <span class="token class-name">JwtProperties</span> jwtProperties<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">ShiroFilterFactoryBean</span> shiroFilterFactoryBean <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ShiroFilterFactoryBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        shiroFilterFactoryBean<span class="token punctuation">.</span><span class="token function">setSecurityManager</span><span class="token punctuation">(</span>securityManager<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Filter</span><span class="token punctuation">&gt;</span></span> filterMap <span class="token operator">=</span> <span class="token function">getFilterMap</span><span class="token punctuation">(</span>loginService<span class="token punctuation">,</span> loginRedisService<span class="token punctuation">,</span> filterProperties<span class="token punctuation">,</span> jwtProperties<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        shiroFilterFactoryBean<span class="token punctuation">.</span><span class="token function">setFilters</span><span class="token punctuation">(</span>filterMap<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> filterChainMap <span class="token operator">=</span> <span class="token function">getFilterChainDefinitionMap</span><span class="token punctuation">(</span>shiroProperties<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        shiroFilterFactoryBean<span class="token punctuation">.</span><span class="token function">setFilterChainDefinitionMap</span><span class="token punctuation">(</span>filterChainMap<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> shiroFilterFactoryBean<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+
+    <span class="token comment">/**
+     * 获取filter map
+     *
+     * @return
+     */</span>
+    <span class="token keyword">private</span> <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Filter</span><span class="token punctuation">&gt;</span></span> <span class="token function">getFilterMap</span><span class="token punctuation">(</span><span class="token class-name">LoginService</span> loginService<span class="token punctuation">,</span>
+                                             <span class="token class-name">LoginRedisService</span> loginRedisService<span class="token punctuation">,</span>
+                                             <span class="token class-name">SpringBootPlusFilterProperties</span> filterProperties<span class="token punctuation">,</span>
+                                             <span class="token class-name">JwtProperties</span> jwtProperties<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Filter</span><span class="token punctuation">&gt;</span></span> filterMap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedHashMap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        filterMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>REQUEST_PATH_FILTER_NAME<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">RequestPathFilter</span><span class="token punctuation">(</span>filterProperties<span class="token punctuation">.</span><span class="token function">getRequestPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        filterMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>JWT_FILTER_NAME<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">JwtFilter</span><span class="token punctuation">(</span>loginService<span class="token punctuation">,</span> loginRedisService<span class="token punctuation">,</span> jwtProperties<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> filterMap<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+
+    <span class="token comment">/**
+     * Shiro路径权限配置
+     *
+     * @return
+     */</span>
+    <span class="token keyword">private</span> <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> <span class="token function">getFilterChainDefinitionMap</span><span class="token punctuation">(</span><span class="token class-name">ShiroProperties</span> shiroProperties<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> filterChainDefinitionMap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedHashMap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 获取ini格式配置</span>
+        <span class="token class-name">String</span> definitions <span class="token operator">=</span> shiroProperties<span class="token punctuation">.</span><span class="token function">getFilterChainDefinitions</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">StringUtils</span><span class="token punctuation">.</span><span class="token function">isNotBlank</span><span class="token punctuation">(</span>definitions<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> section <span class="token operator">=</span> <span class="token class-name">IniUtil</span><span class="token punctuation">.</span><span class="token function">parseIni</span><span class="token punctuation">(</span>definitions<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">&quot;definitions:{}&quot;</span><span class="token punctuation">,</span> JSON<span class="token punctuation">.</span><span class="token function">toJSONString</span><span class="token punctuation">(</span>section<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Map</span><span class="token punctuation">.</span><span class="token class-name">Entry</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> entry <span class="token operator">:</span> section<span class="token punctuation">.</span><span class="token function">entrySet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                filterChainDefinitionMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>entry<span class="token punctuation">.</span><span class="token function">getKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> entry<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// 获取自定义权限路径配置集合</span>
+        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">ShiroPermissionProperties</span><span class="token punctuation">&gt;</span></span> permissionConfigs <span class="token operator">=</span> shiroProperties<span class="token punctuation">.</span><span class="token function">getPermission</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">&quot;permissionConfigs:{}&quot;</span><span class="token punctuation">,</span> JSON<span class="token punctuation">.</span><span class="token function">toJSONString</span><span class="token punctuation">(</span>permissionConfigs<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">CollectionUtils</span><span class="token punctuation">.</span><span class="token function">isNotEmpty</span><span class="token punctuation">(</span>permissionConfigs<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">ShiroPermissionProperties</span> permissionConfig <span class="token operator">:</span> permissionConfigs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token class-name">String</span> url <span class="token operator">=</span> permissionConfig<span class="token punctuation">.</span><span class="token function">getUrl</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> urls <span class="token operator">=</span> permissionConfig<span class="token punctuation">.</span><span class="token function">getUrls</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name">String</span> permission <span class="token operator">=</span> permissionConfig<span class="token punctuation">.</span><span class="token function">getPermission</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">StringUtils</span><span class="token punctuation">.</span><span class="token function">isBlank</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token class-name">ArrayUtils</span><span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span>urls<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ShiroConfigException</span><span class="token punctuation">(</span><span class="token string">&quot;shiro permission config 路径配置不能为空&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">StringUtils</span><span class="token punctuation">.</span><span class="token function">isBlank</span><span class="token punctuation">(</span>permission<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ShiroConfigException</span><span class="token punctuation">(</span><span class="token string">&quot;shiro permission config permission不能为空&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">StringUtils</span><span class="token punctuation">.</span><span class="token function">isNotBlank</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    filterChainDefinitionMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> permission<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">ArrayUtils</span><span class="token punctuation">.</span><span class="token function">isNotEmpty</span><span class="token punctuation">(</span>urls<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">String</span> string <span class="token operator">:</span> urls<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        filterChainDefinitionMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>string<span class="token punctuation">,</span> permission<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// 如果启用shiro，则设置最后一个设置为JWTFilter，否则全部路径放行</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>shiroProperties<span class="token punctuation">.</span><span class="token function">isEnable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            filterChainDefinitionMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">&quot;/**&quot;</span><span class="token punctuation">,</span> JWT_FILTER_NAME<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            filterChainDefinitionMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">&quot;/**&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;anon&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">&quot;filterChainMap:{}&quot;</span><span class="token punctuation">,</span> JSON<span class="token punctuation">.</span><span class="token function">toJSONString</span><span class="token punctuation">(</span>filterChainDefinitionMap<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 添加默认的filter</span>
+        <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> newFilterChainDefinitionMap <span class="token operator">=</span> <span class="token function">addDefaultFilterDefinition</span><span class="token punctuation">(</span>filterChainDefinitionMap<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> newFilterChainDefinitionMap<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 添加默认的filter权限过滤
+     *
+     * @param filterChainDefinitionMap
+     * @return
+     */</span>
+    <span class="token keyword">private</span> <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> <span class="token function">addDefaultFilterDefinition</span><span class="token punctuation">(</span><span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> filterChainDefinitionMap<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">MapUtils</span><span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span>filterChainDefinitionMap<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> filterChainDefinitionMap<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">final</span> <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedHashMap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Map</span><span class="token punctuation">.</span><span class="token class-name">Entry</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> entry <span class="token operator">:</span> filterChainDefinitionMap<span class="token punctuation">.</span><span class="token function">entrySet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">String</span> key <span class="token operator">=</span> entry<span class="token punctuation">.</span><span class="token function">getKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">String</span> value <span class="token operator">=</span> entry<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">String</span> definition<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>REQUEST_PATH_FILTER_NAME<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                definition <span class="token operator">=</span> value<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> strings <span class="token operator">=</span> value<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">&quot;,&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">// 添加默认filter过滤</span>
+                list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>REQUEST_PATH_FILTER_NAME<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                list<span class="token punctuation">.</span><span class="token function">addAll</span><span class="token punctuation">(</span><span class="token class-name">Arrays</span><span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span>strings<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                definition <span class="token operator">=</span> <span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">&quot;,&quot;</span><span class="token punctuation">,</span> list<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> definition<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> map<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * ShiroFilter配置
+     *
+     * @return
+     */</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">FilterRegistrationBean</span> <span class="token function">delegatingFilterProxy</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">FilterRegistrationBean</span> filterRegistrationBean <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FilterRegistrationBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">DelegatingFilterProxy</span> proxy <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DelegatingFilterProxy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        proxy<span class="token punctuation">.</span><span class="token function">setTargetFilterLifecycle</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        proxy<span class="token punctuation">.</span><span class="token function">setTargetBeanName</span><span class="token punctuation">(</span>SHIRO_FILTER_NAME<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        filterRegistrationBean<span class="token punctuation">.</span><span class="token function">setFilter</span><span class="token punctuation">(</span>proxy<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        filterRegistrationBean<span class="token punctuation">.</span><span class="token function">setAsyncSupported</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        filterRegistrationBean<span class="token punctuation">.</span><span class="token function">setEnabled</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        filterRegistrationBean<span class="token punctuation">.</span><span class="token function">setDispatcherTypes</span><span class="token punctuation">(</span><span class="token class-name">DispatcherType</span><span class="token punctuation">.</span>REQUEST<span class="token punctuation">,</span> <span class="token class-name">DispatcherType</span><span class="token punctuation">.</span>ASYNC<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> filterRegistrationBean<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">Authenticator</span> <span class="token function">authenticator</span><span class="token punctuation">(</span><span class="token class-name">LoginRedisService</span> loginRedisService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">ModularRealmAuthenticator</span> authenticator <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ModularRealmAuthenticator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        authenticator<span class="token punctuation">.</span><span class="token function">setRealms</span><span class="token punctuation">(</span><span class="token class-name">Arrays</span><span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span><span class="token function">jwtRealm</span><span class="token punctuation">(</span>loginRedisService<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        authenticator<span class="token punctuation">.</span><span class="token function">setAuthenticationStrategy</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">FirstSuccessfulStrategy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> authenticator<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+
+    <span class="token comment">/**
+     * Enabling Shiro Annotations
+     *
+     * @return
+     */</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">LifecycleBeanPostProcessor</span> <span class="token function">lifecycleBeanPostProcessor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">LifecycleBeanPostProcessor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">AuthorizationAttributeSourceAdvisor</span> <span class="token function">authorizationAttributeSourceAdvisor</span><span class="token punctuation">(</span><span class="token class-name">SecurityManager</span> securityManager<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">AuthorizationAttributeSourceAdvisor</span> authorizationAttributeSourceAdvisor <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AuthorizationAttributeSourceAdvisor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        authorizationAttributeSourceAdvisor<span class="token punctuation">.</span><span class="token function">setSecurityManager</span><span class="token punctuation">(</span>securityManager<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> authorizationAttributeSourceAdvisor<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+
+</code></pre></div><h3 id="jwt过滤器配置"><a href="#jwt过滤器配置" aria-hidden="true" class="header-anchor">#</a> JWT过滤器配置</h3> <div class="language-java extra-class"><pre class="language-java"><code><span class="token annotation punctuation">@Slf4j</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">JwtFilter</span> <span class="token keyword">extends</span> <span class="token class-name">AuthenticatingFilter</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">LoginService</span> loginService<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">LoginRedisService</span> loginRedisService<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">JwtProperties</span> jwtProperties<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">JwtFilter</span><span class="token punctuation">(</span><span class="token class-name">LoginService</span> loginService<span class="token punctuation">,</span> <span class="token class-name">LoginRedisService</span> loginRedisService<span class="token punctuation">,</span> <span class="token class-name">JwtProperties</span> jwtProperties<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>loginService <span class="token operator">=</span> loginService<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>loginRedisService <span class="token operator">=</span> loginRedisService<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>jwtProperties <span class="token operator">=</span> jwtProperties<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 将JWT Token包装成AuthenticationToken
+     *
+     * @param servletRequest
+     * @param servletResponse
+     * @return
+     * @throws Exception
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token class-name">AuthenticationToken</span> <span class="token function">createToken</span><span class="token punctuation">(</span><span class="token class-name">ServletRequest</span> servletRequest<span class="token punctuation">,</span> <span class="token class-name">ServletResponse</span> servletResponse<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token class-name">String</span> token <span class="token operator">=</span> <span class="token class-name">JwtTokenUtil</span><span class="token punctuation">.</span><span class="token function">getToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">StringUtils</span><span class="token punctuation">.</span><span class="token function">isBlank</span><span class="token punctuation">(</span>token<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">AuthenticationException</span><span class="token punctuation">(</span><span class="token string">&quot;token不能为空&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">JwtUtil</span><span class="token punctuation">.</span><span class="token function">isExpired</span><span class="token punctuation">(</span>token<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">AuthenticationException</span><span class="token punctuation">(</span><span class="token string">&quot;JWT Token已过期,token:&quot;</span> <span class="token operator">+</span> token<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// 如果开启redis二次校验，或者设置为单个用户token登陆，则先在redis中判断token是否存在</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>jwtProperties<span class="token punctuation">.</span><span class="token function">isRedisCheck</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span> jwtProperties<span class="token punctuation">.</span><span class="token function">isSingleLogin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">boolean</span> redisExpired <span class="token operator">=</span> loginRedisService<span class="token punctuation">.</span><span class="token function">exists</span><span class="token punctuation">(</span>token<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>redisExpired<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">AuthenticationException</span><span class="token punctuation">(</span><span class="token string">&quot;Redis Token不存在,token:&quot;</span> <span class="token operator">+</span> token<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token class-name">String</span> username <span class="token operator">=</span> <span class="token class-name">JwtUtil</span><span class="token punctuation">.</span><span class="token function">getUsername</span><span class="token punctuation">(</span>token<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">String</span> salt<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>jwtProperties<span class="token punctuation">.</span><span class="token function">isSaltCheck</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            salt <span class="token operator">=</span> loginRedisService<span class="token punctuation">.</span><span class="token function">getSalt</span><span class="token punctuation">(</span>username<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token keyword">else</span><span class="token punctuation">{</span>
+            salt <span class="token operator">=</span> jwtProperties<span class="token punctuation">.</span><span class="token function">getSecret</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token class-name">JwtToken</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span>token<span class="token punctuation">,</span> username<span class="token punctuation">,</span> salt<span class="token punctuation">,</span> jwtProperties<span class="token punctuation">.</span><span class="token function">getExpireSecond</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 访问失败处理
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">boolean</span> <span class="token function">onAccessDenied</span><span class="token punctuation">(</span><span class="token class-name">ServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">ServletResponse</span> response<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token class-name">HttpServletRequest</span> httpServletRequest <span class="token operator">=</span> <span class="token class-name">WebUtils</span><span class="token punctuation">.</span><span class="token function">toHttp</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">HttpServletResponse</span> httpServletResponse <span class="token operator">=</span> <span class="token class-name">WebUtils</span><span class="token punctuation">.</span><span class="token function">toHttp</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 返回401</span>
+        httpServletResponse<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token class-name">HttpServletResponse</span><span class="token punctuation">.</span>SC_UNAUTHORIZED<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 设置响应码为401或者直接输出消息</span>
+        <span class="token class-name">String</span> url <span class="token operator">=</span> httpServletRequest<span class="token punctuation">.</span><span class="token function">getRequestURI</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">&quot;onAccessDenied url：{}&quot;</span><span class="token punctuation">,</span> url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">ApiResult</span> apiResult <span class="token operator">=</span> <span class="token class-name">ApiResult</span><span class="token punctuation">.</span><span class="token function">fail</span><span class="token punctuation">(</span><span class="token class-name">ApiCode</span><span class="token punctuation">.</span>UNAUTHORIZED<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">HttpServletResponseUtil</span><span class="token punctuation">.</span><span class="token function">printJSON</span><span class="token punctuation">(</span>httpServletResponse<span class="token punctuation">,</span> apiResult<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 判断是否允许访问
+     *
+     * @param request
+     * @param response
+     * @param mappedValue
+     * @return
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">boolean</span> <span class="token function">isAccessAllowed</span><span class="token punctuation">(</span><span class="token class-name">ServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">ServletResponse</span> response<span class="token punctuation">,</span> <span class="token class-name">Object</span> mappedValue<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">String</span> url <span class="token operator">=</span> <span class="token class-name">WebUtils</span><span class="token punctuation">.</span><span class="token function">toHttp</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getRequestURI</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">&quot;isAccessAllowed url:{}&quot;</span><span class="token punctuation">,</span> url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">isLoginRequest</span><span class="token punctuation">(</span>request<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">boolean</span> allowed <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            allowed <span class="token operator">=</span> <span class="token function">executeLogin</span><span class="token punctuation">(</span>request<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IllegalStateException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">//not found any token</span>
+            log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">&quot;Token不能为空&quot;</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">&quot;访问错误&quot;</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> allowed <span class="token operator">||</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">isPermissive</span><span class="token punctuation">(</span>mappedValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 登陆成功处理
+     *
+     * @param token
+     * @param subject
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">boolean</span> <span class="token function">onLoginSuccess</span><span class="token punctuation">(</span><span class="token class-name">AuthenticationToken</span> token<span class="token punctuation">,</span> <span class="token class-name">Subject</span> subject<span class="token punctuation">,</span> <span class="token class-name">ServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">ServletResponse</span> response<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token class-name">String</span> url <span class="token operator">=</span> <span class="token class-name">WebUtils</span><span class="token punctuation">.</span><span class="token function">toHttp</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getRequestURI</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">&quot;鉴权成功,token:{},url:{}&quot;</span><span class="token punctuation">,</span> token<span class="token punctuation">,</span> url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 刷新token</span>
+        <span class="token class-name">JwtToken</span> jwtToken <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">JwtToken</span><span class="token punctuation">)</span> token<span class="token punctuation">;</span>
+        <span class="token class-name">HttpServletResponse</span> httpServletResponse <span class="token operator">=</span> <span class="token class-name">WebUtils</span><span class="token punctuation">.</span><span class="token function">toHttp</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        loginService<span class="token punctuation">.</span><span class="token function">refreshToken</span><span class="token punctuation">(</span>jwtToken<span class="token punctuation">,</span> httpServletResponse<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 登陆失败处理
+     *
+     * @param token
+     * @param e
+     * @param request
+     * @param response
+     * @return
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">boolean</span> <span class="token function">onLoginFailure</span><span class="token punctuation">(</span><span class="token class-name">AuthenticationToken</span> token<span class="token punctuation">,</span> <span class="token class-name">AuthenticationException</span> e<span class="token punctuation">,</span> <span class="token class-name">ServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">ServletResponse</span> response<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">&quot;登陆失败，token:&quot;</span> <span class="token operator">+</span> token <span class="token operator">+</span> <span class="token string">&quot;,error:&quot;</span> <span class="token operator">+</span> e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><h3 id="jwt-realm配置"><a href="#jwt-realm配置" aria-hidden="true" class="header-anchor">#</a> JWT Realm配置</h3> <div class="language-java extra-class"><pre class="language-java"><code><span class="token annotation punctuation">@Slf4j</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">JwtRealm</span> <span class="token keyword">extends</span> <span class="token class-name">AuthorizingRealm</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">LoginRedisService</span> loginRedisService<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">JwtRealm</span><span class="token punctuation">(</span><span class="token class-name">LoginRedisService</span> loginRedisService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>loginRedisService <span class="token operator">=</span> loginRedisService<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">supports</span><span class="token punctuation">(</span><span class="token class-name">AuthenticationToken</span> token<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> token <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> token <span class="token keyword">instanceof</span> <span class="token class-name">JwtToken</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 授权认证,设置角色/权限信息
+     *
+     * @param principalCollection
+     * @return
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token class-name">AuthorizationInfo</span> <span class="token function">doGetAuthorizationInfo</span><span class="token punctuation">(</span><span class="token class-name">PrincipalCollection</span> principalCollection<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">&quot;doGetAuthorizationInfo principalCollection...&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 设置角色/权限信息</span>
+        <span class="token class-name">JwtToken</span> jwtToken <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">JwtToken</span><span class="token punctuation">)</span> principalCollection<span class="token punctuation">.</span><span class="token function">getPrimaryPrincipal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 获取username</span>
+        <span class="token class-name">String</span> username <span class="token operator">=</span> jwtToken<span class="token punctuation">.</span><span class="token function">getUsername</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 获取登陆用户角色权限信息</span>
+        <span class="token class-name">LoginSysUserRedisVo</span> loginSysUserRedisVo <span class="token operator">=</span> loginRedisService<span class="token punctuation">.</span><span class="token function">getLoginSysUserRedisVo</span><span class="token punctuation">(</span>username<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">SimpleAuthorizationInfo</span> authorizationInfo <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SimpleAuthorizationInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 设置角色</span>
+        authorizationInfo<span class="token punctuation">.</span><span class="token function">setRoles</span><span class="token punctuation">(</span><span class="token class-name">SetUtils</span><span class="token punctuation">.</span><span class="token function">hashSet</span><span class="token punctuation">(</span>loginSysUserRedisVo<span class="token punctuation">.</span><span class="token function">getRoleCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 设置权限</span>
+        authorizationInfo<span class="token punctuation">.</span><span class="token function">setStringPermissions</span><span class="token punctuation">(</span>loginSysUserRedisVo<span class="token punctuation">.</span><span class="token function">getPermissionCodes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> authorizationInfo<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 登陆认证
+     *
+     * @param authenticationToken
+     * @return
+     * @throws AuthenticationException
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token class-name">AuthenticationInfo</span> <span class="token function">doGetAuthenticationInfo</span><span class="token punctuation">(</span><span class="token class-name">AuthenticationToken</span> authenticationToken<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">AuthenticationException</span> <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">&quot;doGetAuthenticationInfo authenticationToken...&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 校验token</span>
+        <span class="token class-name">JwtToken</span> jwtToken <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">JwtToken</span><span class="token punctuation">)</span> authenticationToken<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>jwtToken <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">AuthenticationException</span><span class="token punctuation">(</span><span class="token string">&quot;jwtToken不能为空&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token class-name">String</span> salt <span class="token operator">=</span> jwtToken<span class="token punctuation">.</span><span class="token function">getSalt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">StringUtils</span><span class="token punctuation">.</span><span class="token function">isBlank</span><span class="token punctuation">(</span>salt<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">AuthenticationException</span><span class="token punctuation">(</span><span class="token string">&quot;salt不能为空&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">SimpleAuthenticationInfo</span><span class="token punctuation">(</span>
+                jwtToken<span class="token punctuation">,</span>
+                salt<span class="token punctuation">,</span>
+                <span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+
+</code></pre></div><h3 id="更多配置-https-github-com-geekidea-spring-boot-plus"><a href="#更多配置-https-github-com-geekidea-spring-boot-plus" aria-hidden="true" class="header-anchor">#</a> 更多配置:<a href="https://github.com/geekidea/spring-boot-plus/tree/master/src/main/java/io/geekidea/springbootplus/shiro" target="_blank" rel="noopener noreferrer">https://github.com/geekidea/spring-boot-plus<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></h3> <h3 id="application-yml配置"><a href="#application-yml配置" aria-hidden="true" class="header-anchor">#</a> application.yml配置</h3> <div class="language-yaml extra-class"><pre class="language-yaml"><code>
+  <span class="token comment">######################## Spring Shiro start ########################</span>
+  <span class="token key atrule">shiro</span><span class="token punctuation">:</span>
+    <span class="token comment"># 是否启用</span>
+    <span class="token key atrule">enable</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+    <span class="token comment"># shiro ini 多行字符串配置</span>
+    <span class="token key atrule">filter-chain-definitions</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+      /=anon
+      /static/**=anon
+      /templates/**=anon
+      /druid/**=anon
+      /hello/world=anon
+      /sysLog/**=anon
+      /verificationCode/**=anon
+      /resource/**=anon
+      /fooBar/**=anon</span>
+    <span class="token comment"># 权限配置</span>
+    <span class="token key atrule">permission</span><span class="token punctuation">:</span>
+        <span class="token comment"># 排除登陆登出相关</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">urls</span><span class="token punctuation">:</span> /login<span class="token punctuation">,</span>/logout
+        <span class="token key atrule">permission</span><span class="token punctuation">:</span> anon
+        <span class="token comment"># 排除静态资源</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">urls</span><span class="token punctuation">:</span> /static/**<span class="token punctuation">,</span>/templates/**
+        <span class="token key atrule">permission</span><span class="token punctuation">:</span> anon
+        <span class="token comment"># 排除Swagger</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">urls</span><span class="token punctuation">:</span> /docs<span class="token punctuation">,</span>/swagger<span class="token punctuation">-</span>ui.html<span class="token punctuation">,</span>/webjars/springfox<span class="token punctuation">-</span>swagger<span class="token punctuation">-</span>ui/**<span class="token punctuation">,</span>/swagger<span class="token punctuation">-</span>resources/**<span class="token punctuation">,</span>/v2/api<span class="token punctuation">-</span>docs
+        <span class="token key atrule">permission</span><span class="token punctuation">:</span> anon
+        <span class="token comment"># 排除SpringBootAdmin</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">urls</span><span class="token punctuation">:</span> /<span class="token punctuation">,</span>/favicon.ico<span class="token punctuation">,</span>/actuator/**<span class="token punctuation">,</span>/instances/**<span class="token punctuation">,</span>/assets/**<span class="token punctuation">,</span>/sba<span class="token punctuation">-</span>settings.js<span class="token punctuation">,</span>/applications/**
+        <span class="token key atrule">permission</span><span class="token punctuation">:</span> anon
+        <span class="token comment"># 测试</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">url</span><span class="token punctuation">:</span> /sysUser/getPageList
+        <span class="token key atrule">permission</span><span class="token punctuation">:</span> anon
+  <span class="token comment">######################## Spring Shiro end ##########################</span>
+
+  <span class="token comment">############################ JWT start #############################</span>
+  <span class="token key atrule">jwt</span><span class="token punctuation">:</span>
+    <span class="token comment"># token请求头名称</span>
+    <span class="token key atrule">token-name</span><span class="token punctuation">:</span> token
+    <span class="token comment"># jwt密钥</span>
+    <span class="token key atrule">secret</span><span class="token punctuation">:</span> <span class="token number">666666</span>
+    <span class="token comment"># 发行人</span>
+    <span class="token key atrule">issuer</span><span class="token punctuation">:</span> spring<span class="token punctuation">-</span>boot<span class="token punctuation">-</span>plus
+    <span class="token comment"># 观众</span>
+    <span class="token key atrule">audience</span><span class="token punctuation">:</span> web
+    <span class="token comment"># 默认过期时间1小时，单位：秒</span>
+    <span class="token key atrule">expire-second</span><span class="token punctuation">:</span> <span class="token number">3600</span>
+    <span class="token comment"># 是否刷新token</span>
+    <span class="token key atrule">refresh-token</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+    <span class="token comment"># 刷新token的时间间隔，默认10分钟，单位：秒</span>
+    <span class="token key atrule">refresh-token-countdown</span><span class="token punctuation">:</span> <span class="token number">600</span>
+    <span class="token comment"># redis校验jwt token是否存在,可选</span>
+    <span class="token key atrule">redis-check</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+    <span class="token comment"># true: 同一个账号只能是最后一次登陆token有效，false：同一个账号可多次登陆</span>
+    <span class="token key atrule">single-login</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+    <span class="token comment"># 盐值校验，如果不加自定义盐值，则使用secret校验</span>
+    <span class="token key atrule">salt-check</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token comment">############################ JWT end ###############################</span>
+
+<span class="token comment">############################### spring-boot-plus end ###############################</span>
+
+</code></pre></div><h3 id="redis存储信息"><a href="#redis存储信息" aria-hidden="true" class="header-anchor">#</a> Redis存储信息</h3> <blockquote><p>使用Redis缓存JWTToken和盐值：方便鉴权,token后台过期控制等</p></blockquote> <ul><li>Redis二次校验和盐值校验是可选的</li></ul> <div class="language-text extra-class"><pre class="language-text"><code>127.0.0.1:6379&gt; keys *
+1) &quot;login:user:token:admin:0f2c5d670f9f5b00201c78293304b5b5&quot;
+2) &quot;login:salt:admin&quot;
+3) &quot;login:user:admin&quot;
+4) &quot;login:token:0f2c5d670f9f5b00201c78293304b5b5&quot;
+</code></pre></div><ul><li>Redis存储的JwtToken信息</li></ul> <div class="language-text extra-class"><pre class="language-text"><code>127.0.0.1:6379&gt; get login:token:0f2c5d670f9f5b00201c78293304b5b5
+</code></pre></div><div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;@class&quot;</span><span class="token operator">:</span> <span class="token string">&quot;io.geekidea.springbootplus.shiro.vo.JwtTokenRedisVo&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;host&quot;</span><span class="token operator">:</span> <span class="token string">&quot;127.0.0.1&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;username&quot;</span><span class="token operator">:</span> <span class="token string">&quot;admin&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;salt&quot;</span><span class="token operator">:</span> <span class="token string">&quot;f80b2eed0110a7ea5a94c35cbea1fe003d9bb450803473428b74862cceb697f8&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;token&quot;</span><span class="token operator">:</span> <span class="token string">&quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ3ZWIiLCJpc3MiOiJzcHJpbmctYm9vdC1wbHVzIiwiZXhwIjoxNTcwMzU3ODY1LCJpYXQiOjE1NzAzNTQyNjUsImp0aSI6IjE2MWQ1MDQxZmUwZjRmYTBhOThjYmQ0ZjRlNDI1ZGQ3IiwidXNlcm5hbWUiOiJhZG1pbiJ9.0ExWSiniq7ThMXfqCOi9pCdonY8D1azeu78_vLNa2v0&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;createDate&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token string">&quot;java.util.Date&quot;</span><span class="token punctuation">,</span>
+    <span class="token number">1570354265000</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;expireSecond&quot;</span><span class="token operator">:</span> <span class="token number">3600</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;expireDate&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token string">&quot;java.util.Date&quot;</span><span class="token punctuation">,</span>
+    <span class="token number">1570357865000</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="reference"><a href="#reference" aria-hidden="true" class="header-anchor">#</a> Reference</h3> <blockquote><p>Shiro</p></blockquote> <ul><li><a href="https://shiro.apache.org/spring.html" target="_blank" rel="noopener noreferrer">https://shiro.apache.org/spring.html<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li> <li><a href="https://shiro.apache.org/spring-boot.html" target="_blank" rel="noopener noreferrer">https://shiro.apache.org/spring-boot.html<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul> <blockquote><p>JWT</p></blockquote> <ul><li><a href="https://jwt.io/" target="_blank" rel="noopener noreferrer">https://jwt.io/<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li> <li><a href="https://github.com/auth0/java-jwt" target="_blank" rel="noopener noreferrer">https://github.com/auth0/java-jwt<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul> <blockquote><p>spring-boot-plus</p></blockquote> <ul><li><a href="https://github.com/geekidea/spring-boot-plus/tree/master/src/main/java/io/geekidea/springbootplus/shiro" target="_blank" rel="noopener noreferrer">https://github.com/geekidea/spring-boot-plus<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li> <li><a href="https://springboot.plus/guide/shiro-jwt.html" target="_blank" rel="noopener noreferrer">https://springboot.plus/guide/shiro-jwt.html<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/geekidea/spring-boot-plus-doc/edit/master/guide/shiro-jwt.md" target="_blank" rel="noopener noreferrer">在 GitHub 上编辑此页</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/guide/upload-download-resource.html" class="prev">文件上传/下载/静态资源访问</a></span> <span class="next"><a href="/guide/rbac.html">RBAC用户角色权限</a>→
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.db17a95a.js" defer></script><script src="/assets/js/2.6d1275ea.js" defer></script><script src="/assets/js/52.a73139ed.js" defer></script>
+  </body>
+</html>
